@@ -2,3 +2,6 @@ vue-admin-system-golang/config/development.ini
 vue-admin-system-golang/config/product.ini
 vue-admin-system/dist/
 vue-admin-system-golang/static/music/
+vue-admin-system-golang/Excels/
+vue-admin-system-golang/logFile/
+vue-admin-system-golang/monthReport/
