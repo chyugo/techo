@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"strconv"
+	"time"
 	"vue-admin-system-golang/models"
+	"vue-admin-system-golang/models/request"
 	resp "vue-admin-system-golang/models/response"
 	"vue-admin-system-golang/service"
 	"vue-admin-system-golang/utils"
@@ -33,7 +35,7 @@ func (a AcidApi) SearchMonth(c *gin.Context) {
 		resp.Error(c, err1, err2)
 		return
 	}
-	fmt.Println("查询数据", acidList)
+	//fmt.Println("查询数据", acidList)
 	fmt.Println("count", count)
 	// 处理数据
 	responseList := []resp.AcidResponse{}
@@ -43,7 +45,7 @@ func (a AcidApi) SearchMonth(c *gin.Context) {
 			Acid:       acidList[i].AcidValue,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", acidList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", acidList)
 	resp.OK(c, gin.H{
 		"acidList": responseList,
 	})
@@ -69,7 +71,7 @@ func (a AcidApi) List(c *gin.Context) {
 		resp.Error(c, err1, err2)
 		return
 	}
-	fmt.Println("查询数据", acidList)
+	//fmt.Println("查询数据", acidList)
 	fmt.Println("count", count)
 	// 处理数据
 	responseList := []resp.AcidResponse{}
@@ -79,7 +81,7 @@ func (a AcidApi) List(c *gin.Context) {
 			Acid:       acidList[i].AcidValue,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", acidList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", acidList)
 	resp.OK(c, gin.H{
 		"acidList":      responseList,
 		"acidPageCount": count,
@@ -99,7 +101,7 @@ func (a AcidApi) Sum(c *gin.Context) {
 		resp.Error(c, err)
 		return
 	}
-	fmt.Println("查询数据", acidList)
+	//fmt.Println("查询数据", acidList)
 	// 处理数据
 	var responseList []resp.AcidResponse
 	for i := 0; i < len(acidList); i++ {
@@ -108,7 +110,7 @@ func (a AcidApi) Sum(c *gin.Context) {
 			Acid:       acidList[i].AcidValue,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsacidList", acidList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsacidList", acidList)
 	resp.OK(c, gin.H{
 		"acidList": responseList,
 	})
@@ -130,6 +132,11 @@ func (a AcidApi) Record(c *gin.Context) {
 		resp.Error(c, err)
 		return
 	}
+	judge, err := strconv.Atoi(c.PostForm("judge"))
+	if err != nil {
+		resp.ParamError(c)
+		return
+	}
 	//fmt.Println("iii", i)
 	timestamp := utils.NineStamp(i)
 	//fmt.Println("timestamp", timestamp)
@@ -149,6 +156,7 @@ func (a AcidApi) Record(c *gin.Context) {
 		fmt.Println("修改acid记录", in_acid)
 		in_acid_int, err := strconv.Atoi(in_acid)
 		getAcid.AcidValue = in_acid_int
+		getAcid.Judge = judge
 		_, err = a.acidService.UpdateAcidById(*getAcid)
 		if err != nil {
 			resp.Error(c, err)
@@ -219,10 +227,67 @@ func (a AcidApi) Find(c *gin.Context) {
 			Id:         acidList[i].Id,
 			RecordDate: utils.Stamp10(strconv.FormatInt(acidList[i].RecordDate, 10))[0:10],
 			Acid:       fmt.Sprintf("%d", acidList[i].AcidValue),
+			Judge:      acidList[i].Judge,
 		})
 	}
 	resp.OK(c, gin.H{
 		"acidList":      acidResponse,
 		"acidPageCount": count,
 	})
+}
+
+func (a AcidApi) AcidDate(c *gin.Context) {
+	getModel := request.AcidDateModel{}
+	if err := c.Bind(&getModel); err != nil {
+		resp.ParamError(c)
+		return
+	}
+	fmt.Printf("%#v", getModel)
+
+	// 鉴权
+	user, err := utils.GetUserByRedis(c)
+	if err != nil {
+		resp.Error(c, err)
+		return
+	}
+
+	thisMonth := time.Unix(utils.StampConv2(time.UnixMilli(getModel.Month).Unix(), 1, 8, 0), 0)
+	nextMonth := thisMonth.AddDate(0, 1, 0)
+	fmt.Println(thisMonth.Unix(), nextMonth.Unix())
+
+	// 查询数据
+	acidList, count, err1, err2 := a.acidService.SearchMonth(user, thisMonth.Unix(), nextMonth.Unix())
+	if err1 != nil || err2 != nil {
+		resp.Error(c, err1, err2)
+		return
+	}
+	fmt.Println("count", count)
+	// 处理数据
+	var responseList []resp.AcidDateResponse
+	for i := 0; i < len(acidList); i++ {
+		var notice string
+		var type_s string
+
+		if acidList[i].Judge == 1 {
+			notice = "不涨"
+			type_s = "safe"
+		}
+		if acidList[i].Judge == 2 {
+			notice = "小胀"
+			type_s = "important"
+		}
+		if acidList[i].Judge == 3 {
+			notice = "中胀"
+			type_s = "important"
+		}
+		if acidList[i].Judge == 4 {
+			notice = "大胀"
+			type_s = "important"
+		}
+		responseList = append(responseList, resp.AcidDateResponse{
+			WorkingDay: utils.Stamp10(strconv.FormatInt(acidList[i].RecordDate, 10))[0:10],
+			Content:    []resp.AcidContent{resp.AcidContent{Notice: notice, Type: type_s}},
+		})
+	}
+	resp.OK(c, responseList)
 }

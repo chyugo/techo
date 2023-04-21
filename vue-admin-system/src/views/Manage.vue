@@ -66,7 +66,12 @@
 									<span>{{ scope.row.Acid }}</span>
 								</template>
 							</el-table-column>
-							s <el-table-column label="操作">
+							<el-table-column label="评级">
+								<template slot-scope="scope">
+									<span>{{ scope.row.Judge =="1"?"没看见有":scope.row.Judge =="2"?"疑似有":scope.row.Judge =="3"?"纸上有":"明显有", }}</span>
+								</template>
+							</el-table-column>
+							 <el-table-column label="操作">
 								<template slot-scope="scope">
 									<el-button size="mini" type="danger"
 										@click="acidHandleDelete(scope.$index, scope.row)">删除

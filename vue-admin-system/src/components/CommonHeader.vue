@@ -10,12 +10,12 @@
 				</el-breadcrumb>
 			</span>
 		</div>
-
-		<div class="l-content hidden-md-and-up">
-			<el-button type="text" class="topbutton"  @click="tohome" size="mini">首页</el-button>
+		
+		<div class="l-content2 hidden-md-and-up">
+			<el-button type="text" class="topbutton" @click="tohome" size="mini">首页</el-button>
 			<el-button type="text" class="topbutton" @click="tomall" size="mini">报表</el-button>
-			<el-button type="text" class="topbutton"  @click="touser" size="mini">录入</el-button>
-			<el-button type="text" class="topbutton"   @click="tomanage" size="mini">管理</el-button>
+			<el-button type="text" class="topbutton" @click="touser" size="mini">录入</el-button>
+			<el-button type="text" class="topbutton" @click="tomanage" size="mini">管理</el-button>
 		</div>
 
 		<div class="r-content ">
@@ -125,13 +125,15 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
+	
 
+	
 	.header-container {
 		padding: 0 20px;
 		// background-color: #333;
 		background-color: rgb(84, 92, 100);
 		background-image: linear-gradient(95deg, #dbfbca, #f2da94 35%, #b2bc7b 67%, #7aac9a);
-		
+
 		height: 60px;
 		display: flex;
 		// 主轴两端显示
@@ -153,14 +155,29 @@
 			}
 		}
 
-		.l-content {
+		.l-content,.l-content2{
 			display: flex;
 			align-items: center;
-			.topbutton{
+			justify-content: space-evenly;
+
+			.topbutton {
 				color: black;
-				font-size: 16px;
+				font-size: 13px;
 				font-weight: 700;
 				margin-right: 10px;
+			}
+		}
+		.l-content2{
+			width: 100%;
+			justify-content: center;
+			button{
+				position: relative;
+			}
+			button:not(:last-child)::after{
+				content: "|";
+				position: absolute;
+				right: -12px;
+				top: 6px;
 			}
 		}
 

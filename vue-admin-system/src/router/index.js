@@ -106,7 +106,6 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 	console.log("to", to)
 	console.log("from", from)
-
 	const cookie = $cookies.get("cookie")
 	// http.post("login/dologin", {
 	// 	userName: this.username,

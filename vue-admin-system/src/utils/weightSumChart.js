@@ -4,12 +4,13 @@ import {
 
 export function drawWeightSum(userData8) {
 	const option8 = {
+		animation: false,
 		tooltip: {
 			show: true,
 			trigger: 'axis',
 			position: function(point, params, dom, rect, size) {
 				// 固定在顶部
-				return [point[0], '10%'];
+				return [point[0]-70, '0%'];
 			},
 		},
 		toolbox: {

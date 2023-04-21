@@ -5,7 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"strings"
+	"time"
 	"vue-admin-system-golang/models"
+	"vue-admin-system-golang/models/request"
 	resp "vue-admin-system-golang/models/response"
 	"vue-admin-system-golang/service"
 	"vue-admin-system-golang/utils"
@@ -43,7 +45,7 @@ func (a ShitApi) SearchMonth(c *gin.Context) {
 			ShitTime:   shitList[i].ShitTime * 1000,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", responseList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", responseList)
 	resp.OK(c, gin.H{
 		"shitList": responseList,
 	})
@@ -77,7 +79,7 @@ func (a ShitApi) List(c *gin.Context) {
 			ShitTime:   shitList[i].ShitTime * 1000,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", responseList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", responseList)
 	resp.OK(c, gin.H{
 		"shitList":      responseList,
 		"shitPageCount": count,
@@ -128,6 +130,13 @@ func (a ShitApi) Record(c *gin.Context) {
 		resp.Error(c, err)
 		return
 	}
+
+	judge, err := strconv.Atoi(c.PostForm("judge"))
+	if err != nil {
+		resp.ParamError(c)
+		return
+	}
+
 	//fmt.Println("iii", i)
 	timestamp := utils.NineStamp(i)
 
@@ -150,6 +159,7 @@ func (a ShitApi) Record(c *gin.Context) {
 	// 判断 修改
 	fmt.Println("修改 shit记录", shit)
 	shit.ShitTime = shitTimeStamp
+	shit.Judge = judge
 	_, err = a.shitService.UpdateShitById(*shit)
 	if err != nil {
 		resp.Error(c, err)
@@ -218,10 +228,67 @@ func (a ShitApi) Find(c *gin.Context) {
 			Id:         shitList[i].Id,
 			RecordDate: utils.Stamp10(strconv.FormatInt(shitList[i].RecordDate, 10))[0:10],
 			ShitTime:   utils.StamptoString(shitList[i].ShitTime),
+			Judge:      shitList[i].Judge,
 		})
 	}
 	resp.OK(c, gin.H{
 		"shitList":      shitResponse,
 		"shitPageCount": count,
 	})
+}
+
+func (a ShitApi) ShitDate(c *gin.Context) {
+	getModel := request.ShitDateModel{}
+	if err := c.Bind(&getModel); err != nil {
+		resp.ParamError(c)
+		return
+	}
+	fmt.Printf("%#v", getModel)
+
+	// 鉴权
+	user, err := utils.GetUserByRedis(c)
+	if err != nil {
+		resp.Error(c, err)
+		return
+	}
+
+	thisMonth := time.Unix(utils.StampConv2(time.UnixMilli(getModel.Month).Unix(), 1, 8, 0), 0)
+	nextMonth := thisMonth.AddDate(0, 1, 0)
+	fmt.Println(thisMonth.Unix(), nextMonth.Unix())
+
+	// 查询数据
+	shitList, count, err1, err2 := a.shitService.SearchMonth(user, thisMonth.Unix(), nextMonth.Unix())
+	if err1 != nil || err2 != nil {
+		resp.Error(c, err1, err2)
+		return
+	}
+	fmt.Println("count", count)
+	// 处理数据
+	var responseList []resp.ShitDateResponse
+	for i := 0; i < len(shitList); i++ {
+		var notice string
+		var type_s string
+
+		if shitList[i].Judge == 1 {
+			notice = "未现"
+			type_s = "safe"
+		}
+		if shitList[i].Judge == 2 {
+			notice = "疑似"
+			type_s = "important"
+		}
+		if shitList[i].Judge == 3 {
+			notice = "擦有"
+			type_s = "important"
+		}
+		if shitList[i].Judge == 4 {
+			notice = "明显"
+			type_s = "important"
+		}
+		responseList = append(responseList, resp.ShitDateResponse{
+			WorkingDay: utils.Stamp10(strconv.FormatInt(shitList[i].RecordDate, 10))[0:10],
+			Content:    []resp.Content{resp.Content{Notice: notice, Type: type_s}},
+		})
+	}
+	resp.OK(c, responseList)
 }

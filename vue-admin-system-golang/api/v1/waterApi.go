@@ -33,7 +33,7 @@ func (a WaterApi) SearchMonth(c *gin.Context) {
 		resp.Error(c, err1, err2)
 		return
 	}
-	fmt.Println("查询数据", waterList)
+	//fmt.Println("查询数据", waterList)
 	fmt.Println("count", count)
 	// 处理数据
 	responseList := []resp.WaterResponse{}
@@ -43,7 +43,7 @@ func (a WaterApi) SearchMonth(c *gin.Context) {
 			Water:      waterList[i].WaterValue,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", waterList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", waterList)
 	resp.OK(c, gin.H{
 		"waterList": responseList,
 	})
@@ -69,7 +69,7 @@ func (a WaterApi) List(c *gin.Context) {
 		resp.Error(c, err1, err2)
 		return
 	}
-	fmt.Println("查询数据", waterList)
+	//fmt.Println("查询数据", waterList)
 	fmt.Println("count", count)
 	// 处理数据
 	responseList := []resp.WaterResponse{}
@@ -79,7 +79,7 @@ func (a WaterApi) List(c *gin.Context) {
 			Water:      waterList[i].WaterValue,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", waterList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", waterList)
 	resp.OK(c, gin.H{
 		"waterList":      responseList,
 		"waterPageCount": count,
@@ -99,7 +99,7 @@ func (a WaterApi) Sum(c *gin.Context) {
 		resp.Error(c, err)
 		return
 	}
-	fmt.Println("查询数据", waterList)
+	//fmt.Println("查询数据", waterList)
 	// 处理数据
 	var responseList []resp.WaterResponse
 	for i := 0; i < len(waterList); i++ {
@@ -108,7 +108,7 @@ func (a WaterApi) Sum(c *gin.Context) {
 			Water:      waterList[i].WaterValue,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfswaterList", waterList)
+	//fmt.Println("adfasfsdfsdfadsfasdfswaterList", waterList)
 	resp.OK(c, gin.H{
 		"waterList": responseList,
 	})

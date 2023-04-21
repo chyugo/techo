@@ -40,13 +40,13 @@ func (d AcidDao) BaseRecord(user *models.User, timeStamp string) (*models.Acid, 
 }
 
 func (d AcidDao) UpdateAcidById(acid models.Acid) (int64, error) {
-	i, err := SqlDB.NewSession().Where("id=?", acid.Id).Cols("acid_value").Update(&acid)
+	i, err := SqlDB.NewSession().Where("id=?", acid.Id).Cols("acid_value", "judge").Update(&acid)
 
 	if err != nil {
 		fmt.Println("err", err)
 		return -1, err
 	}
-	logger.Logger.Info(fmt.Sprintf("update AcidDao db Id:%d,acid:%d", acid.Id, acid.AcidValue))
+	logger.Logger.Info(fmt.Sprintf("update AcidDao db Id:%d,acid:%d,judge:%d", acid.Id, acid.AcidValue, acid.Judge))
 
 	return i, nil
 }
@@ -103,7 +103,7 @@ func (d AcidDao) Find(user *models.User, acidPageNow int) ([]models.Acid, int, e
 func (d AcidDao) SearchMonth(user *models.User, thisMonth int64, nextMonth int64) ([]models.Acid, int, error, error) {
 	var acidList []models.Acid
 	// desc 降序
-	err1 := SqlDB.NewSession().Where("user_id=?", user.Id).And("record_date > ?", thisMonth).And("record_date< ?", nextMonth).Desc("record_date").Find(&acidList)
+	err1 := SqlDB.NewSession().Where("user_id=?", user.Id).And("record_date >= ?", thisMonth).And("record_date< ?", nextMonth).Desc("record_date").Find(&acidList)
 	newAcidList := []models.Acid{}
 	fmt.Println("acidList", acidList)
 	// 反序

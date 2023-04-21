@@ -20,11 +20,11 @@
 				<p class="about">使未来比现在更好</p>
 				<br>
 				<br>
-				<el-button type="text gradient_text" @click="closeAbout">关闭</el-button>
+				<el-button type="text " @click="closeAbout"><span class="gradient_text">关闭</span></el-button>
 			</el-dialog>
 			<div>
-				<el-button class="gradient_text" type="text" @click="toLogin">立刻使用 <span class="iconfont"
-						style="color:#58B758;font-size: 14px; ">&#xe674;</span></el-button>
+				<div class="gradient_text"  @click="toLogin"><span style="font-weight: 400;">立刻使用 </span><span class=" iconfont"
+						style="font-size: 14px; ">&#xe674;</span></div>
 
 			</div>
 		</div>
@@ -93,25 +93,21 @@
 			</el-card>
 		</div>
 
-		<div class="graph">
+		<!-- <div class="graph">
 			<el-card class="graphContent">
-				<!-- 折线图 -->
 				<div ref="echarts1" style="height: 260px;"></div>
 			</el-card>
 			<el-card class="graphContent">
-				<!-- 柱状图 -->
 				<div ref="echarts2" style="height: 260px;"></div>
 
 			</el-card>
 			<el-card class="graphContent">
-				<!-- 饼图 -->
 				<div ref="echarts3" style="height: 240px;"></div>
 			</el-card>
 			<el-card class="graphContent">
-				<!-- 饼图 -->
 				<div ref="echarts4" style="height: 240px;"></div>
 			</el-card>
-		</div>
+		</div> -->
 		</el-col>
 
 	</div>
@@ -362,10 +358,11 @@
 	}
 
 	.gradient_text {
-		background-image: linear-gradient(95deg, #fd4536, #ec546e 35%, #c65f91 67%, #705fae);
-		background-clip: text;
+		background: linear-gradient(95deg, #fd4536, #ec546e 35%, #c65f91 67%, #705fae);
 		color: transparent;
+		background-clip: text;
 		transition: background-image 0.5s linear;
+		cursor: pointer;
 	}
 
 	.gradient_text:hover {

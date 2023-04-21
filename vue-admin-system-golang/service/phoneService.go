@@ -38,3 +38,6 @@ func (s PhoneService) Find(user *models.User, phonePageNow int) ([]models.Phone,
 func (s PhoneService) SearchMonth(user *models.User, thisMonth int64, nextMonth int64) ([]models.Phone, int, error, error) {
 	return s.phoneDao.SearchMonth(user, thisMonth, nextMonth)
 }
+func (s PhoneService) DashBoard(user *models.User) (int, int, error) {
+	return s.phoneDao.DashBoard(user)
+}

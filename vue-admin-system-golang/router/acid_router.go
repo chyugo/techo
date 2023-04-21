@@ -15,5 +15,7 @@ func InitAcidRouter(r *gin.RouterGroup) {
 		group.Any("/find", acidApi.Find)
 		group.Any("/searchMonth", acidApi.SearchMonth)
 		group.Any("/delete", acidApi.Delete)
+		group.Any("/acidDate", acidApi.AcidDate)
+
 	}
 }

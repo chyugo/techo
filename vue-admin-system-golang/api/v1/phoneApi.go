@@ -43,7 +43,7 @@ func (a PhoneApi) List(c *gin.Context) {
 			PhoneMinute: phoneList[i].PhoneMinute,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", responseList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", responseList)
 	resp.OK(c, gin.H{
 		"phoneList":      responseList,
 		"phonePageCount": count,
@@ -72,7 +72,7 @@ func (a PhoneApi) Sum(c *gin.Context) {
 			PhoneMinute: phoneList[i].PhoneMinute,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", responseList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", responseList)
 	resp.OK(c, gin.H{
 		"phoneList": responseList,
 	})
@@ -223,6 +223,46 @@ func (a PhoneApi) SearchMonth(c *gin.Context) {
 	}
 	resp.OK(c, gin.H{
 		"phoneList": responseList,
+	})
+
+}
+
+func (a PhoneApi) DashBoard(c *gin.Context) {
+	// 鉴权
+	user, err := utils.GetUserByRedis(c)
+	if err != nil {
+		resp.Error(c, err)
+		return
+	}
+	// 查询数据
+	count, everyWeak, err := a.phoneService.DashBoard(user)
+	if err != nil {
+		resp.Error(c, err)
+		return
+	}
+	phoneDashBoardH, phoneDashBoardM := utils.GenerateDashBoard(count)
+	everyWeakH, everyWeakM := utils.GenerateDashBoard(everyWeak)
+	everyYearH, everyYearM := utils.GenerateDashBoard(everyWeak * 52)
+	every100YearH, every100YearM := utils.GenerateDashBoard(everyWeak * 52 * 100)
+	fmt.Printf("%#v", gin.H{
+		"phoneDashBoardH":             phoneDashBoardH,
+		"phoneDashBoardM":             phoneDashBoardM,
+		"everyWeakPhoneDashBoardH":    everyWeakH,
+		"everyWeakPhoneDashBoardM":    everyWeakM,
+		"everyYearPhoneDashBoardH":    everyYearH,
+		"everyYearPhoneDashBoardM":    everyYearM,
+		"every100YearPhoneDashBoardH": every100YearH,
+		"every100YearPhoneDashBoardM": every100YearM,
+	})
+	resp.OK(c, gin.H{
+		"phoneDashBoardH":             phoneDashBoardH,
+		"phoneDashBoardM":             phoneDashBoardM,
+		"everyWeakPhoneDashBoardH":    everyWeakH,
+		"everyWeakPhoneDashBoardM":    everyWeakM,
+		"everyYearPhoneDashBoardH":    everyYearH,
+		"everyYearPhoneDashBoardM":    everyYearM,
+		"every100YearPhoneDashBoardH": every100YearH,
+		"every100YearPhoneDashBoardM": every100YearM,
 	})
 
 }

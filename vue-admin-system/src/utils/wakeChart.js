@@ -22,6 +22,7 @@ import moment from "moment";
 		console.log("sleepTimeArray", sleepTimeArray)
 		console.log("this.travel", travel)
 		const option12 = {
+			animation: false,
 			grid: {
 				left: '5%',
 				right: '2%',
@@ -35,7 +36,7 @@ import moment from "moment";
 				},
 				position: function(point, params, dom, rect, size) {
 					// 固定在顶部
-					return [point[0], '10%'];
+					return [point[0]-70, '0%'];
 				},
 				trigger: 'axis',
 				formatter: function(value) {

@@ -51,30 +51,50 @@
 								<el-button plain @click="chosetoday">选择今天</el-button>
 								<el-button plain @click="choseyesterday">选择昨天</el-button>
 							</el-col>
-			
+
 						</el-form-item>
 						<el-form-item label="今日反酸">
 							<span style="margin-right: 5px;">
 								<el-input v-model="acidValue" style="width: 30%;" placeholder=""></el-input> 次
 							</span>
-							<el-button class="gradient_btn" type="primary" @click="acidRecord">添加</el-button>
 							<el-col>
 								<div style="width: 80%;margin: 0 auto;">
 									<!-- <el-slider :format-tooltip="formatTooltip1" v-model="morningslider" :step="0.1"
 									:show-tooltip="false"></el-slider> -->
-			
-			
+
+
 								</div>
 							</el-col>
-			
+
 						</el-form-item>
-			
+						<el-form-item label="胀不涨？">
+							<el-col>
+								<div>
+									<el-radio-group v-model="acidRadio">
+										<el-radio-button label="不胀"></el-radio-button>
+										<el-radio-button label="小胀"></el-radio-button>
+										<el-radio-button label="中胀"></el-radio-button>
+										<el-radio-button label="大胀"></el-radio-button>
+									</el-radio-group>
+								</div>
+							</el-col>
+						</el-form-item>
+						<!-- <el-button class="gradient_btn" style="" type="primary" @click="acidRecord">录入
+								</el-button> -->
+
+						<div class="p-topArtistListItem__btnContainer"
+							style="margin: 10px;display: flex;justify-content: center">
+							<el-button class="c-btn p-topArtistListItem__btn" @click="acidRecord" style="width: 100%;">
+								记录 / 复盘
+							</el-button>
+						</div>
+
 					</el-form>
-			
+
 				</div>
-			
+
 			</el-tab-pane>
-			
+
 			<el-tab-pane label="喝水" name="water">
 				<div style="display: flex;justify-content: space-around;">
 					<el-form ref="form">
@@ -87,30 +107,40 @@
 								<el-button plain @click="chosetoday">选择今天</el-button>
 								<el-button plain @click="choseyesterday">选择昨天</el-button>
 							</el-col>
-			
+
 						</el-form-item>
 						<el-form-item label="本次喝水">
-							<span style="margin-right: 5px;">
-								<el-input v-model="waterValue" style="width: 30%;" placeholder=""></el-input> 毫升
-							</span>
-							<el-button class="gradient_btn" type="primary" @click="waterRecord">添加</el-button>
+				<br>
+				
+							<div style="display: flex;">
+								<div class="p-topArtistListItem__btnContainer" style="margin: 10px;">
+									<span style="margin-right: 5px;">
+										<el-input v-model="waterValue" style="width: 30%;" placeholder=""></el-input> 毫升
+									</span>
+									<!-- <el-button class="gradient_btn" type="primary" @click="waterRecord"></el-button> -->
+									<el-button class="c-btn p-topArtistListItem__btn" @click="waterRecord">
+										记录 / 复盘
+									</el-button>
+								</div>
+							</div>
+
 							<el-col>
 								<div style="width: 80%;margin: 0 auto;">
 									<!-- <el-slider :format-tooltip="formatTooltip1" v-model="morningslider" :step="0.1"
 									:show-tooltip="false"></el-slider> -->
-			
-			
+
+
 								</div>
 							</el-col>
-			
+
 						</el-form-item>
-			
+
 					</el-form>
-			
+
 				</div>
-			
+
 			</el-tab-pane>
-			
+
 			<el-tab-pane label="入睡起床" name="sleep" style="margin: 0 auto;">
 				<div style="display: flex;justify-content: space-around;">
 					<el-form ref="form">
@@ -134,7 +164,7 @@
 
 								<div>
 									<el-button class="gradient_btn" type="primary" @click="fallasleepRecord"><span
-											class="iconfont" style="margin-right: 10px;">&#xe692;</span>录入</el-button>
+											class="iconfont" style="margin-right: 10px;">&#xe692;</span>记录 / 复盘</el-button>
 								</div>
 							</el-col>
 
@@ -147,7 +177,7 @@
 								</el-time-picker>
 								<div>
 									<el-button class="gradient_btn" type="primary" @click="getRecord"><span
-											class="iconfont" style="margin-right: 10px;">&#xe626;</span>录入</el-button>
+											class="iconfont" style="margin-right: 10px;">&#xe626;</span>记录 / 复盘</el-button>
 								</div>
 							</el-col>
 						</el-form-item>
@@ -174,7 +204,7 @@
 						</el-form-item>
 						<div style="display: flex;justify-content: space-around;margin-bottom: 50px;">
 							<el-button class="gradient_btn" type="primary" @click="sleepDurationRecord"
-								style="width: 80%;">录入</el-button>
+								style="width: 80%;">记录 / 复盘</el-button>
 						</div>
 
 					</el-form>
@@ -197,12 +227,12 @@
 							</el-col>
 
 						</el-form-item>
-						<el-form-item label="早餐"><span class="iconfont"
+						<el-form-item label="早餐前"><span class="iconfont"
 								style="font-size: 25px;margin-right: 10px;">&#xe610;</span>
 							<span style="margin-right: 5px;">
 								<el-input v-model="morningData" style="width: 30%;" placeholder=""></el-input> 斤
 							</span>
-							<el-button class="gradient_btn" type="primary" @click="morningRecord">录入</el-button>
+							<el-button class="gradient_btn" type="primary" @click="morningRecord">记录 / 复盘</el-button>
 							<el-col>
 								<div style="width: 80%;margin: 0 auto;">
 									<!-- <el-slider :format-tooltip="formatTooltip1" v-model="morningslider" :step="0.1"
@@ -213,12 +243,12 @@
 							</el-col>
 
 						</el-form-item>
-						<el-form-item label="午餐"><span class="iconfont"
+						<el-form-item label="午餐前"><span class="iconfont"
 								style="font-size: 25px;margin-right: 10px;">&#xe610;</span>
 							<span style="margin-right: 5px;">
 								<el-input v-model="noonData" style="width: 30%;" placeholder=""></el-input> 斤
 							</span>
-							<el-button class="gradient_btn" type="primary" @click="noonRecord">录入</el-button>
+							<el-button class="gradient_btn" type="primary" @click="noonRecord">记录 / 复盘</el-button>
 							<el-col>
 								<!-- <div style="width: 80%;margin: 0 auto;">
 									<el-slider :format-tooltip="formatTooltip2" v-model="noonslider" :step="0.1"
@@ -228,12 +258,12 @@
 
 						</el-form-item>
 
-						<el-form-item label="晚餐"><span class="iconfont"
+						<el-form-item label="晚餐前"><span class="iconfont"
 								style="font-size: 25px;margin-right: 10px;">&#xe610;</span>
 							<span style="margin-right: 5px;">
 								<el-input v-model="nightData" style="width: 30%;" placeholder=""></el-input> 斤
 							</span>
-							<el-button class="gradient_btn" type="primary" @click="nightRecord">录入</el-button>
+							<el-button class="gradient_btn" type="primary" @click="nightRecord">记录 / 复盘</el-button>
 							<el-col>
 								<!-- <div style="width: 80%;margin: 0 auto;">
 									<el-slider :format-tooltip="formatTooltip3" v-model="nightslider" :step="0.1"
@@ -274,12 +304,31 @@
 								<el-time-picker placeholder="选择时间" v-model="shitTime" style="" format='HH:mm'
 									style="margin-right: 5px;width: 70%;" value-format="H:m">
 								</el-time-picker>
-								<el-button class="gradient_btn" type="primary" @click="shitRecord">录入</el-button>
 							</el-col>
 
 						</el-form-item>
-
-
+						<el-form-item label="有没有血？">
+							<el-col>
+								<div>
+									<el-radio-group v-model="shitRadio" size="small">
+										<el-radio-button label="没看见有"></el-radio-button>
+										<el-radio-button label="疑似有"></el-radio-button>
+										<el-radio-button label="纸上有"></el-radio-button>
+										<el-radio-button label="明显有"></el-radio-button>
+									</el-radio-group>
+								</div>
+							</el-col>
+						</el-form-item>
+						<!-- <div style="display: flex;justify-content: center">
+							<el-button class="gradient_btn" style="width: 80%;" type="primary" @click="shitRecord">录入
+							</el-button>
+						</div> -->
+						<div class="p-topArtistListItem__btnContainer"
+							style="margin: 10px;display: flex;justify-content: center">
+							<el-button class="c-btn p-topArtistListItem__btn" @click="shitRecord" style="width: 100%;">
+								记录 / 复盘
+							</el-button>
+						</div>
 
 					</el-form>
 
@@ -325,7 +374,7 @@
 							</el-col>
 						</el-form-item>
 						<div style="display: flex;justify-content: space-around">
-							<el-button class="gradient_btn" type="primary" @click="heartRecord" style="width: 80%;">录入
+							<el-button class="gradient_btn" type="primary" @click="heartRecord" style="width: 80%;">记录 / 复盘
 							</el-button>
 						</div>
 
@@ -375,8 +424,8 @@
 								</div>
 							</el-col>
 						</el-form-item>
-						<div style="display: flex;justify-content: space-around">
-							<el-button class="gradient_btn" type="primary" @click="phoneRecord" style="width: 80%;">录入
+												<div style="display: flex;justify-content: space-around">
+							<el-button class="gradient_btn" type="primary" @click="phoneRecord" style="width: 80%;">记录 / 复盘
 							</el-button>
 						</div>
 
@@ -405,6 +454,8 @@
 
 				postdate: parseInt(new Date().getTime()),
 				shitTime: '',
+				shitRadio: '',
+				acidRadio: '',
 				getTime: '',
 				sleepTime: '',
 				sleepHour: '',
@@ -639,7 +690,7 @@
 			water() {
 				this.activeName = "water"
 			},
-			acid(){
+			acid() {
 				this.activeName = "acid"
 			},
 			chosetoday() {
@@ -763,9 +814,20 @@
 				})
 			},
 			shitRecord() {
+				if (this.shitRadio == "") {
+					this.$notify({
+						title: '请输入拉屎情况',
+						position: 'bottom-left',
+						duration: 1400,
+						showClose: false,
+					});
+					return
+				}
 				http.post("shit/record", {
 					shitTime: this.shitTime,
 					recordDate: this.postdate,
+					judge: this.shitRadio == "没看见有" ? 1 : this.shitRadio == "疑似有" ? 2 : this.shitRadio == "纸上有" ?
+						3 : 4,
 				}).then((response) => {
 					if (response.data.err_code != 0) {
 						this.$notify.error({
@@ -914,9 +976,20 @@
 				})
 			},
 			acidRecord() {
+				if (this.acidRadio == "") {
+					this.$notify({
+						title: '请输入胀情况',
+						position: 'bottom-left',
+						duration: 1400,
+						showClose: false,
+					});
+					return
+				}
 				http.post("acid/record", {
 					acid: this.acidValue,
 					recordDate: this.postdate,
+					judge: this.acidRadio == "不胀" ? 1 : this.acidRadio == "小胀" ? 2 : this.acidRadio == "中胀" ? 3 :
+						4,
 				}).then((response) => {
 					if (response.data.err_code != 0) {
 						this.$notify.error({
@@ -959,6 +1032,77 @@
 		-moz-osx-font-smoothing: grayscale;
 	}
 
+	.c-btn {
+		display: inline-block;
+		border-radius: 20px;
+		color: #fff;
+		line-height: 15px;
+		text-align: center;
+	}
+
+	// button {
+	//     -webkit-appearance: none;
+	//     -moz-appearance: none;
+	//     appearance: none;
+	//     padding: 0;
+	//     border: none;
+	//     outline: none;
+	//     background: transparent;
+	//     color: inherit;
+	//     cursor: pointer;
+	//     font: inherit;
+	// }
+
+	.p-topArtistListItem__btn {
+		position: relative;
+		overflow: hidden;
+		font-weight: 700;
+		padding: 14px 30px 14px;
+		font-size: 13px;
+		letter-spacing: 1px;
+		box-shadow: 0 2px 10px 0 rgb(253, 143, 144);
+		z-index: 0;
+		transition: background-color 1s, box-shadow 1s;
+		cursor: pointer;
+		border: none;
+	}
+
+	.p-topArtistListItem__btn::before {
+		content: "";
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background-color: #ff003c;
+		z-index: -1;
+	}
+
+	.p-topArtistListItem__btn::after {
+		content: "";
+		position: absolute;
+		display: block;
+		width: 150%;
+		height: 200%;
+		top: 100%;
+		left: 0;
+		background-color: #000;
+		transform-origin: top left;
+		transform: rotate(30deg);
+		transition: transform .6s;
+		z-index: -1;
+	}
+
+	.p-topArtistListItem__btn:hover {
+		box-shadow: 0 0 0 rgb(255, 255, 255);
+		transition: box-shadow 1s;
+	}
+
+	.p-topArtistListItem__btn:hover::after {
+		transform: translateY(-100%);
+		transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+	}
 
 	.gradient_text {
 		background-image: linear-gradient(95deg, #fd4536, #ec546e 35%, #c65f91 67%, #705fae);
@@ -974,12 +1118,18 @@
 
 	.gradient_btn {
 		background-image: linear-gradient(95deg, #fd4536, #ec546e 35%, #c65f91 67%, #705fae);
-		color: #fff;
-		border-color: white;
+		color: white;
+		border: 0;
+		border-radius: 20px;
+		// box-shadow: 0 2px 7px 0 rgb(254, 166, 162);
+		transition: all 1s;
+		z-index: 0;
 	}
 
 	.gradient_btn:hover {
 		opacity: .7;
+		// box-shadow: 0 0px 0px 0 rgb(254, 166, 162);
+		transition: all 1s;
 	}
 
 	.tabs {

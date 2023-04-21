@@ -49,6 +49,15 @@ func StampConv(i int64, hour int, min int) int64 {
 	return time.Date(year, month, day, hour, min, 0, 0, time.Local).Unix()
 }
 
+// 传入10位时间戳，保留当天，指定时间，返回10位时间戳
+func StampConv2(i int64, day int, hour int, min int) int64 {
+	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", i)
+	datatime := time.Unix(i, 0)
+	year, month, _ := datatime.Date()
+	fmt.Println("获取到时间,", year, month, day)
+	return time.Date(year, month, day, hour, min, 0, 0, time.Local).Unix()
+}
+
 func MinuteToHourMinute1(minute int) string {
 	if minute == 0 {
 		return "无数据"
@@ -78,7 +87,7 @@ func StamptoString(i int64) string {
 	return time.Date(year, month, day, hour, minute, second, 0, time.Local).String()[0:19]
 }
 
-// 根据日期查找 返回当月和下月时间戳
+// 根据日期查找 返回当月和下月时间戳 month: 1672502400000
 func SearchMonthConv(month string) (int64, int64, error) {
 	if !IsMatchNumber(month) {
 		return -1, -1, errors.New("SearchMonthConv err.")
@@ -98,4 +107,35 @@ func SearchMonthConv(month string) (int64, int64, error) {
 	nextMonth := time.Unix(tempMonth, 0).AddDate(0, 1, -1).Add(time.Hour * 23).Unix()
 	fmt.Println("thisMonth", thisMonth, "nextMonth", nextMonth)
 	return thisMonth, nextMonth, nil
+}
+
+// 传入分钟数 转换为[hour,minute]
+func MinuteToHm(minute int) []int {
+	h := minute / 60
+	m := minute % 60
+	return []int{h, m}
+}
+
+// 将[hour,minute]转换成['h','o','u','r'],['m','i','n','u','t','e']
+func HmListToString(Hm []int) ([]string, []string) {
+	var hString []string
+	var mString []string
+	H := fmt.Sprintf("%d", Hm[0])
+	M := fmt.Sprintf("%d", Hm[1])
+	for i := 0; i < len(H); i++ {
+		hString = append(hString, fmt.Sprintf("%c", H[i]))
+	}
+	for i := 0; i < len(M); i++ {
+		mString = append(mString, fmt.Sprintf("%c", M[i]))
+	}
+	fmt.Printf("%#v", hString)
+	fmt.Printf("%#v", mString)
+	return hString, mString
+}
+
+// 生成dashboard格式的数据
+func GenerateDashBoard(count int) ([]string, []string) {
+	h_m := MinuteToHm(count)
+	hString, mString := HmListToString(h_m)
+	return hString, mString
 }

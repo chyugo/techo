@@ -13,7 +13,7 @@ type ShitDao struct {
 func (d ShitDao) SearchMonth(user *models.User, thisMonth int64, nextMonth int64) ([]models.Shit, int, error, error) {
 	var shitList []models.Shit
 	// desc 降序
-	err1 := SqlDB.NewSession().Where("user_id=?", user.Id).And("record_date > ?", thisMonth).And("record_date< ?", nextMonth).Desc("record_date").Find(&shitList)
+	err1 := SqlDB.NewSession().Where("user_id=?", user.Id).And("record_date >= ?", thisMonth).And("record_date< ?", nextMonth).Desc("record_date").Find(&shitList)
 	newShitList := []models.Shit{}
 	// 反序
 	for i := range shitList {
@@ -90,13 +90,13 @@ func (d ShitDao) BaseRecord(user *models.User, timeStamp string) (*models.Shit, 
 
 func (d ShitDao) UpdateShitById(shit models.Shit) (int64, error) {
 	fmt.Printf("shitshitshit %#v", shit)
-	i, err := SqlDB.NewSession().Where("id=?", shit.Id).Cols("shit_time").Update(&shit)
+	i, err := SqlDB.NewSession().Where("id=?", shit.Id).Cols("shit_time", "judge").Update(&shit)
 
 	if err != nil {
 		fmt.Println("err", err)
 		return -1, err
 	}
-	logger.Logger.Info(fmt.Sprintf("update shit db id:%d,shit_time:%d", shit.Id, shit.ShitTime))
+	logger.Logger.Info(fmt.Sprintf("update shit db id:%d,shit_time:%d,judge:%d", shit.Id, shit.ShitTime, shit.Judge))
 
 	return i, nil
 }

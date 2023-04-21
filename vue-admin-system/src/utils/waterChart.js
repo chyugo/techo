@@ -4,6 +4,7 @@ import {
 
 export function drawWater(userData7) {
 	const option7 = {
+		animation: false,
 		tooltip: {
 			show: true,
 			axisPointer: {
@@ -11,7 +12,7 @@ export function drawWater(userData7) {
 			},
 			position: function(point, params, dom, rect, size) {
 				// 固定在顶部
-				return [point[0], '10%'];
+				return [point[0]-70, '0%'];
 			},
 			trigger: 'axis'
 		},

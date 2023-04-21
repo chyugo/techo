@@ -6,6 +6,7 @@ type Acid struct {
 	UserId     int   `xorm:"user_id"`
 	RecordDate int64 `xorm:"record_date"`
 	AcidValue  int   `xorm:"acid_value"`
+	Judge      int   `xorm:"judge"`
 }
 
 func (Acid) TableName() string {

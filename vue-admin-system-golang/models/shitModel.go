@@ -6,6 +6,7 @@ type Shit struct {
 	UserId     int   `xorm:"user_id"`
 	RecordDate int64 `xorm:"record_date"`
 	ShitTime   int64 `xorm:"shit_time"`
+	Judge      int   `xorm:"judge"`
 }
 
 func (Shit) TableName() string {

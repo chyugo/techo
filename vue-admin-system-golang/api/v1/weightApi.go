@@ -33,7 +33,7 @@ func (a WeightApi) SearchMonth(c *gin.Context) {
 		resp.Error(c, err1, err2)
 		return
 	}
-	fmt.Println("查询数据", weightList)
+	//fmt.Println("查询数据", weightList)
 	fmt.Println("count", count)
 	// 处理数据
 	responseList := []resp.WeightResponse{}
@@ -45,7 +45,7 @@ func (a WeightApi) SearchMonth(c *gin.Context) {
 			NightWeight:   float32(weightList[i].NightWeight) / 10,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", weightList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", weightList)
 	resp.OK(c, gin.H{
 		"weightList": responseList,
 	})
@@ -71,7 +71,7 @@ func (a WeightApi) List(c *gin.Context) {
 		resp.Error(c, err1, err2)
 		return
 	}
-	fmt.Println("查询数据", weightList)
+	//fmt.Println("查询数据", weightList)
 	fmt.Println("count", count)
 	// 处理数据
 	var responseList []resp.WeightResponse
@@ -83,7 +83,7 @@ func (a WeightApi) List(c *gin.Context) {
 			NightWeight:   float32(weightList[i].NightWeight) / 10,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", weightList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", weightList)
 	resp.OK(c, gin.H{
 		"weightList":      responseList,
 		"weightPageCount": count,
@@ -103,7 +103,7 @@ func (a WeightApi) Sum(c *gin.Context) {
 		resp.Error(c, err)
 		return
 	}
-	fmt.Println("查询数据", weightList)
+	//fmt.Println("查询数据", weightList)
 	// 处理数据
 	var responseList []resp.WeightResponse
 	for i := 0; i < len(weightList); i++ {
@@ -114,7 +114,7 @@ func (a WeightApi) Sum(c *gin.Context) {
 			NightWeight:   float32(weightList[i].NightWeight) / 10,
 		})
 	}
-	fmt.Println("adfasfsdfsdfadsfasdfsweightList", weightList)
+	//fmt.Println("adfasfsdfsdfadsfasdfsweightList", weightList)
 	resp.OK(c, gin.H{
 		"weightList": responseList,
 	})

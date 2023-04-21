@@ -3,6 +3,7 @@ import {
 } from './time.js'
 export function drawHeartSum(userData10) {
 	const option10 = {
+		animation: false,
 		tooltip: {
 			trigger: 'axis',
 			axisPointer: {
@@ -10,7 +11,7 @@ export function drawHeartSum(userData10) {
 			},
 			position: function(point, params, dom, rect, size) {
 				// 固定在顶部
-				return [point[0], '10%'];
+				return [point[0]-70, '0%'];
 			},
 			formatter: '{a0}:{c}% <br />'
 		},

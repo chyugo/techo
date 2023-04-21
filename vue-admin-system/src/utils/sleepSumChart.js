@@ -5,12 +5,13 @@ import {
 
 export function drawSleepSum(userData5) {
 	const option5 = {
+		animation: false,
 		tooltip: {
 			show: true,
 			trigger: 'axis',
 			position: function(point, params, dom, rect, size) {
 				// 固定在顶部
-				return [point[0], '10%'];
+				return [point[0]-70, '0%'];
 			},
 			formatter: function(params) {
 				return fomartTime(params[0].data)

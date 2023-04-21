@@ -17,5 +17,7 @@ func InitShitRouter(r *gin.RouterGroup) {
 
 		group.Any("/delete", shitApi.Delete)
 
+		group.Any("/shitDate", shitApi.ShitDate)
+
 	}
 }

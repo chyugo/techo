@@ -10,6 +10,17 @@ import (
 type PhoneDao struct {
 }
 
+func (d PhoneDao) DashBoard(user *models.User) (int, int, error) {
+	// 查询所有
+	phone := models.Phone{}
+	total, err := SqlDB.NewSession().Where("user_id=?", user.Id).Sum(phone, "phone_minute")
+	// 查询本周
+	sentence := "select sum(phone_minute) as everyWeak from (select * from phone where user_id = ? ORDER BY record_date desc LIMIT 7) as a"
+	res, err := SqlDB.Query(sentence, user.Id)
+	i, err := strconv.Atoi(string((res[0])["everyWeak"]))
+	return int(total), i, err
+}
+
 func (d PhoneDao) List(user *models.User, phonePageNow int) ([]models.Phone, int, error, error) {
 	var phoneList []models.Phone
 	// desc 降序

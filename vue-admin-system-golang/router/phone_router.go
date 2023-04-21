@@ -14,6 +14,7 @@ func InitPhoneRouter(r *gin.RouterGroup) {
 		group.Any("/record", phoneApi.Record)
 		group.Any("/find", phoneApi.Find)
 		group.Any("/searchMonth", phoneApi.SearchMonth)
+		group.Any("/dashBoard", phoneApi.DashBoard)
 
 		group.Any("/delete", phoneApi.Delete)
 	}

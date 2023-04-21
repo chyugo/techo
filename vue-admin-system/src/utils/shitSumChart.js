@@ -19,6 +19,7 @@ export function drawShitSum(userData13) {
 			`${BASE_TIME} ${moment('2020-02-02 12:00').format('YYYY-MM-DD HH:mm').substr(11, 10)}` : null);
 	}
 	const option13 = {
+		animation: false,
 		grid: {
 			left: '5%',
 			right: '2%',
@@ -32,7 +33,7 @@ export function drawShitSum(userData13) {
 			},
 			position: function(point, params, dom, rect, size) {
 				// 固定在顶部
-				return [point[0], '10%'];
+				return [point[0]-70, '0%'];
 			},
 			trigger: 'axis',
 			formatter: function(value) {
